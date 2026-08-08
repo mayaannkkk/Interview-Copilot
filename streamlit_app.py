@@ -1,15 +1,17 @@
 import os
 import tempfile
-import requests
 import streamlit as st
 from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
 
+# Streamlit Cloud uses st.secrets instead of .env — bridge them so
+# os.environ["GROQ_API_KEY"] works the same way in both environments
 if "GROQ_API_KEY" in st.secrets:
     os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
-# Import the LangGraph compiled graph directly for local execution fallback
+
+# Import the LangGraph compiled graph directly for local execution
 from app.graph.workflow import graph
 
 st.set_page_config(
@@ -61,15 +63,7 @@ st.markdown('<div class="sub-title">Intelligent interview prep powered by LangGr
 with st.sidebar:
     st.image("https://img.icons8.com/isometric-folders/100/brain.png", width=64)
     st.header("⚙️ Configuration")
-    
-    execution_mode = st.radio(
-        "Execution Engine",
-        ["Direct LangGraph Engine", "FastAPI Service (http://127.0.0.1:8000)"],
-        help="Choose whether to invoke the LangGraph workflow directly in Python or send requests to the running FastAPI server."
-    )
-    
-    api_url = st.text_input("FastAPI Base URL", value="http://127.0.0.1:8000")
-    
+
     st.divider()
     
     st.header("🛠️ Features")
@@ -116,19 +110,9 @@ with st.expander("📄 Upload Resume (PDF) for Quick Analysis", expanded=False):
             
             with st.spinner("Analyzing resume via LangGraph Resume Agent..."):
                 try:
-                    if "FastAPI" in execution_mode:
-                        response = requests.post(f"{api_url}/chat", params={"query": tmp_path})
-                        if response.status_code == 200:
-                            data = response.json()
-                            bot_response = data.get("response", "No response returned.")
-                            route = data.get("route", "resume_analysis")
-                        else:
-                            bot_response = f"FastAPI Error ({response.status_code}): {response.text}"
-                            route = "error"
-                    else:
-                        data = graph.invoke({"query": tmp_path})
-                        bot_response = data.get("response", "No response generated.")
-                        route = data.get("route", "resume_analysis")
+                    data = graph.invoke({"query": tmp_path})
+                    bot_response = data.get("response", "No response generated.")
+                    route = data.get("route", "resume_analysis")
                 except Exception as e:
                     bot_response = f"Error processing resume: {str(e)}"
                     route = "error"
@@ -152,19 +136,9 @@ if prompt := st.chat_input("Ask a question, paste resume text, or request mock i
     with st.chat_message("assistant"):
         with st.spinner("Routing query through AI agents..."):
             try:
-                if "FastAPI" in execution_mode:
-                    response = requests.post(f"{api_url}/chat", params={"query": prompt})
-                    if response.status_code == 200:
-                        data = response.json()
-                        bot_response = data.get("response", "No response returned.")
-                        route = data.get("route", "general")
-                    else:
-                        bot_response = f"FastAPI Error ({response.status_code}): {response.text}"
-                        route = "error"
-                else:
-                    data = graph.invoke({"query": prompt})
-                    bot_response = data.get("response", "No response generated.")
-                    route = data.get("route", "general")
+                data = graph.invoke({"query": prompt})
+                bot_response = data.get("response", "No response generated.")
+                route = data.get("route", "general")
             except Exception as e:
                 bot_response = f"An error occurred while communicating with the agent: {str(e)}"
                 route = "error"
