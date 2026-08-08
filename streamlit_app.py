@@ -15,7 +15,7 @@ if "GROQ_API_KEY" in st.secrets:
 from app.graph.workflow import graph
 
 st.set_page_config(
-    page_title="AI Agentic Interview Coach",
+    page_title="Interview Copilot",
     page_icon="🎯",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -56,9 +56,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Header Section
-st.markdown('<div class="main-title">🎯 AI Agentic Interview Coach</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-title">🎯 Interview Copilot</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub-title">Intelligent interview prep powered by LangGraph routing & Groq LLMs</div>', unsafe_allow_html=True)
-
 # Sidebar Setup
 with st.sidebar:
     st.header("⚙️ Configuration")
@@ -80,7 +79,7 @@ with st.sidebar:
 # Initialize Chat History
 if "messages" not in st.session_state:
     st.session_state.messages = [
-        {"role": "assistant", "content": "Hello! I am your AI Interview Coach. You can ask me general interview questions, upload a resume for review, or request mock interview practice on any topic!", "route": None}
+        {"role": "assistant", "content": "Hello! I am Interview Copilot. You can ask me general interview questions, upload a resume for review, or request mock interview practice on any topic!", "route": None}
     ]
 
 # Display Existing Chat History
