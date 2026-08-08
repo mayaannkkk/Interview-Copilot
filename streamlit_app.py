@@ -61,7 +61,6 @@ st.markdown('<div class="sub-title">Intelligent interview prep powered by LangGr
 
 # Sidebar Setup
 with st.sidebar:
-    st.markdown('<div style="font-size: 3rem; line-height: 1;">🧠</div>', unsafe_allow_html=True)
     st.header("⚙️ Configuration")
 
     st.divider()
