@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
+if "GROQ_API_KEY" in st.secrets:
+    os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
 # Import the LangGraph compiled graph directly for local execution fallback
 from app.graph.workflow import graph
 
