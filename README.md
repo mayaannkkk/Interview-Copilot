@@ -13,9 +13,8 @@ The platform helps candidates prepare for technical interviews through intellige
 Upload your resume in PDF format and receive:
 
 - Resume strengths
-- Areas of improvement
+- Resume Weakness
 - Personalized interview questions
-- Skill-based feedback
 
 ### 🎤 Mock Interview Agent
 
