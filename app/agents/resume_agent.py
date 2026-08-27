@@ -3,7 +3,7 @@ import re
 from langchain_groq import ChatGroq
 from app.tools.resume_tool import extract_resume_text
 
-llm = ChatGroq(model="llama-3.3-70b-versatile")
+llm = ChatGroq(model="qwen/qwen3.6-27b")
 
 # Matches a Windows-style absolute path ending in .pdf, even if it's
 # embedded inside other text (e.g. "Analyze this: C:\...\tmp123.pdf.")

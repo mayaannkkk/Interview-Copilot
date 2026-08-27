@@ -1,6 +1,6 @@
 from langchain_groq import ChatGroq 
 
-llm = ChatGroq(model="llama-3.1-8b-instant")
+llm = ChatGroq(model="qwen/qwen3.6-27b")
 
 
 def general_agent(state):
