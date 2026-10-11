@@ -1,6 +1,6 @@
 from langchain_groq import ChatGroq 
 
-llm = ChatGroq(model="qwen/qwen3.8-27b")
+llm = ChatGroq(model="openai/gpt-oss-120b")
 
 
 def interviewer_node(state):
